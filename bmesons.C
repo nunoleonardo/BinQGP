@@ -99,9 +99,12 @@ void bmesons(){
   
   int n_var;
   
-  TString input_file_data = particle ? "/lstore/cms/ev19u032/prefiltered_trees_final/selected_data_ntphi_PbPb_2018_corrected_test_train.root" : "/lstore/cms/ev19u032/prefiltered_trees_final/selected_data_ntKp_PbPb_2018_corrected_test_train.root";
+  TString input_file_data = particle ? "./InputFiles/BsData.root" : "InputFiles/BPData.root";
+  TString input_file_mc   = particle ? "./InputFiles/BsMC.root" : "InputFiles/BPMC.root";
 
-  TString input_file_mc = particle ? "/lstore/cms/ev19u032/prefiltered_trees_final/selected_mc_ntphi_PbPb_2018_corrected_BDT.root" :  "/lstore/cms/ev19u032/prefiltered_trees_final/selected_mc_ntKp_PbPb_2018_corrected_BDT.root";
+  //  TString input_file_data = particle ? "/lstore/cms/ev19u032/prefiltered_trees_final/selected_data_ntphi_PbPb_2018_corrected_test_train.root" : "/lstore/cms/ev19u032/prefiltered_trees_final/selected_data_ntKp_PbPb_2018_corrected_test_train.root";
+
+  //  TString input_file_mc = particle ? "/lstore/cms/ev19u032/prefiltered_trees_final/selected_mc_ntphi_PbPb_2018_corrected_BDT.root" :  "/lstore/cms/ev19u032/prefiltered_trees_final/selected_mc_ntKp_PbPb_2018_corrected_BDT.root";
 
   std::vector<TH1D*> histos_sideband_sub;
   std::vector<TH1D*> histos_mc;
