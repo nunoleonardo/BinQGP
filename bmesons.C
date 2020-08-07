@@ -93,7 +93,7 @@ void fit_syst_error_bin(TString, double a, double b);
 // 0 = Bu
 // 1 = Bs
 
-#define particle 0
+#define particle 1
 
 void bmesons(){
   
@@ -112,12 +112,12 @@ void bmesons(){
 
 #if particle == 0
   //int n_bins[]= {25, 20, 10, 10, 20, 10, 10, 10, 10, 10, 15, 10, 10, 15, 15, 15, 15, 15, 15, 15, 15, 20, 20, 20, 20, 20, 20, 20, 20};
-  int n_bins[]= {20, 20, 10, 10, 20, 10, 10, 10, 10, 10, 15, 10, 10, 15, 15, 15, 15, 15, 15, 15, 15, 20, 20, 20, 20, 20, 20, 20, 20};
-  TString variables[] = {"Bpt","By","Btrk1eta","Btrk1Y","Btrk1pt","Bmu1eta","Bmu2eta","Bmu1pt","Bmu2pt","Bchi2cl", "BsvpvDistance", "BsvpvDistance_Err","Balpha","Btrk1Dz1","BvtxX", "BvtxY", "Btrk1DzError1", "Btrk1Dxy1", "Btrk1DxyError1", "Bd0","Bd0err","BDT_pt_5_7", "BDT_pt_7_10", "BDT_pt_10_15", "BDT_pt_15_20","BDT_pt_20_30","BDT_pt_30_50","BDT_pt_50_100","BDT_total"};
+  int n_bins[]= {20, 20};//, 10, 10, 20, 10, 10, 10, 10, 10, 15, 10, 10, 15, 15, 15, 15, 15, 15, 15, 15, 20, 20, 20, 20, 20, 20, 20, 20};
+  TString variables[] = {"Bpt","By"};//,"Btrk1eta","Btrk1Y","Btrk1pt","Bmu1eta","Bmu2eta","Bmu1pt","Bmu2pt","Bchi2cl", "BsvpvDistance", "BsvpvDistance_Err","Balpha","Btrk1Dz1","BvtxX", "BvtxY", "Btrk1DzError1", "Btrk1Dxy1", "Btrk1DxyError1", "Bd0","Bd0err","BDT_pt_5_7", "BDT_pt_7_10", "BDT_pt_10_15", "BDT_pt_15_20","BDT_pt_20_30","BDT_pt_30_50","BDT_pt_50_100","BDT_total"};
 
 #elif particle == 1
-  int n_bins[] = {20, 10, 10, 10, 10, 10, 10, 10, 10, 20, 10, 10, 10, 10, 20, 20, 20, 20, 20, 20, 20};
-  TString variables[] = {"Bpt","By","Btrk1eta", "Btrk2eta", "Btrk1pt", "Btrk2pt", "Bmu1eta","Bmu2eta","Bmu1pt","Bmu2pt","Bchi2cl", "Bmumumass", "Btrktrkmass", "BsvpvDistance", "BsvpvDistance_Err","Balpha", "BDT_pt_5_10", "BDT_pt_10_15", "BDT_pt_15_20", "BDT_pt_20_50", "BDT_total"};
+  int n_bins[] = {20, 10};//, 10, 10, 10, 10, 10, 10, 10, 20, 10, 10, 10, 10, 20, 20, 20, 20, 20, 20, 20};
+  TString variables[] = {"Bpt","By"};//,"Btrk1eta", "Btrk2eta", "Btrk1pt", "Btrk2pt", "Bmu1eta","Bmu2eta","Bmu1pt","Bmu2pt","Bchi2cl", "Bmumumass", "Btrktrkmass", "BsvpvDistance", "BsvpvDistance_Err","Balpha", "BDT_pt_5_10", "BDT_pt_10_15", "BDT_pt_15_20", "BDT_pt_20_50", "BDT_total"};
 #endif
 
   int n_n_bins = sizeof(n_bins)/sizeof(n_bins[0]);
@@ -139,8 +139,6 @@ void bmesons(){
 
   plot_complete_fit(*ws);
 
-  return;
-
   //validate_fit(ws);
 
   //if(!DATA_CUT){fit_syst_error(input_file_data);}
@@ -151,6 +149,8 @@ void bmesons(){
   do_splot(*ws);
   histos_splot = splot_method(*ws,n_bins,variables, n_var);
   
+
+  return;
 
   //monte carlo histograms
   TFile *fin_mc = new TFile(input_file_mc);
@@ -785,6 +785,8 @@ void read_data(RooWorkspace& w, TString f_input){
   arg_list.add(*(w.var("Bmass")));
   arg_list.add(*(w.var("Bpt")));
   arg_list.add(*(w.var("By")));
+
+  /*
   arg_list.add(*(w.var("Btrk1eta")));
   if(particle == 0){arg_list.add(*(w.var("Btrk1Y")));}
   if(particle == 1){arg_list.add(*(w.var("Btrk2eta")));}
@@ -825,6 +827,7 @@ void read_data(RooWorkspace& w, TString f_input){
     arg_list.add(*(w.var("BDT_pt_20_50")));
     arg_list.add(*(w.var("BDT_total")));	 
   }
+  */
 
   RooDataSet* data = new RooDataSet("data","data",t1_data,arg_list);
 
@@ -1278,6 +1281,8 @@ std::vector<TH1D*> sideband_subtraction(RooWorkspace* w, int* n, int n_var){
   variables.push_back(*(w->var("Bmass")));
   variables.push_back(*(w->var("Bpt")));
   variables.push_back(*(w->var("By")));
+
+  /*
   variables.push_back(*(w->var("Btrk1eta")));
   if(particle == 0){variables.push_back(*(w->var("Btrk1Y")));}
   if(particle == 1){variables.push_back(*(w->var("Btrk2eta")));}
@@ -1317,6 +1322,7 @@ std::vector<TH1D*> sideband_subtraction(RooWorkspace* w, int* n, int n_var){
     variables.push_back(*(w->var("BDT_pt_20_50")));
     variables.push_back(*(w->var("BDT_total")));
   }
+  */
 
   RooDataSet* reduceddata_side;
   RooDataSet* reduceddata_central; 
@@ -1352,6 +1358,7 @@ std::vector<TH1D*> sideband_subtraction(RooWorkspace* w, int* n, int n_var){
   if(particle == 0){
     histos.push_back(create_histogram(variables[1],"Bpt", factor, reduceddata_side, reduceddata_central, data, n[0]));
     histos.push_back(create_histogram(variables[2], "By",factor, reduceddata_side, reduceddata_central, data, n[1]));
+    /*
     histos.push_back(create_histogram(variables[3], "Btrk1eta",factor, reduceddata_side, reduceddata_central, data, n[2]));
     histos.push_back(create_histogram(variables[4], "Btrk1Y",factor, reduceddata_side, reduceddata_central, data, n[3]));
     histos.push_back(create_histogram(variables[5], "Btrk1pt",factor, reduceddata_side, reduceddata_central, data, n[4]));
@@ -1379,10 +1386,11 @@ std::vector<TH1D*> sideband_subtraction(RooWorkspace* w, int* n, int n_var){
     histos.push_back(create_histogram(variables[27], "BDT_pt_30_50",factor, reduceddata_side, reduceddata_central, data, n[26]));
     histos.push_back(create_histogram(variables[28], "BDT_pt_50_100",factor, reduceddata_side, reduceddata_central, data, n[27]));
     histos.push_back(create_histogram(variables[29], "BDT_total",factor, reduceddata_side, reduceddata_central, data, n[28]));
-
+    */
   }else if(particle == 1){
     histos.push_back(create_histogram(variables[1],"Bpt", factor, reduceddata_side, reduceddata_central, data, n[0]));
     histos.push_back(create_histogram(variables[2], "By",factor, reduceddata_side, reduceddata_central, data, n[1]));
+    /*
     histos.push_back(create_histogram(variables[3], "Btrk1eta",factor, reduceddata_side, reduceddata_central, data, n[2]));
     histos.push_back(create_histogram(variables[4], "Btrk2eta",factor, reduceddata_side, reduceddata_central, data, n[3]));
     histos.push_back(create_histogram(variables[5], "Btrk1pt",factor, reduceddata_side, reduceddata_central, data, n[4]));
@@ -1402,6 +1410,7 @@ std::vector<TH1D*> sideband_subtraction(RooWorkspace* w, int* n, int n_var){
     histos.push_back(create_histogram(variables[19], "BDT_pt_15_20",factor, reduceddata_side, reduceddata_central, data, n[18]));    
     histos.push_back(create_histogram(variables[20], "BDT_pt_20_50",factor, reduceddata_side, reduceddata_central, data, n[19]));
     histos.push_back(create_histogram(variables[21], "BDT_total",factor, reduceddata_side, reduceddata_central, data, n[20]));    
+    */
   }
 
   return histos;
@@ -1844,6 +1853,7 @@ void set_up_workspace_variables(RooWorkspace& w)
     double mass_min, mass_max;
     double pt_min, pt_max;
     double y_min, y_max;
+    /*
     double trk1eta_min, trk1eta_max;
     double Btrk1YMin, Btrk1YMax;
     double trk1pt_min, trk1pt_max;
@@ -1871,7 +1881,7 @@ void set_up_workspace_variables(RooWorkspace& w)
     double BDT_pt_30_50_min, BDT_pt_30_50_max;
     double BDT_pt_50_100_min, BDT_pt_50_100_max;
     double BDT_total_min, BDT_total_max;
-
+    */
  
     mass_min=5.;
     mass_max=6.;
@@ -1882,6 +1892,7 @@ void set_up_workspace_variables(RooWorkspace& w)
     y_min=-2.4;
     y_max=2.4;
 
+    /*
     trk1eta_min= DATA_CUT ? -2.4 : -2.5;
     trk1eta_max= DATA_CUT ? 2.4 : 2.5;
 
@@ -1963,11 +1974,13 @@ void set_up_workspace_variables(RooWorkspace& w)
 
     BDT_total_min = DATA_CUT ? 0.07 : -0.02;
     BDT_total_max = DATA_CUT ? 0.68 : 0.7;
-  
+    */
  
     RooRealVar Bmass("Bmass","Bmass",mass_min,mass_max);
     RooRealVar Bpt("Bpt","Bpt",pt_min,pt_max);
     RooRealVar By("By","By",y_min,y_max);
+
+    /*
     RooRealVar Btrk1eta("Btrk1eta","Btrk1eta",trk1eta_min,trk1eta_max);
     RooRealVar Btrk1Y("Btrk1Y","Btrk1Y",Btrk1YMin,Btrk1YMax);
     RooRealVar Btrk1pt("Btrk1pt","Btrk1pt",trk1pt_min,trk1pt_max);
@@ -1995,11 +2008,13 @@ void set_up_workspace_variables(RooWorkspace& w)
     RooRealVar BDT_pt_30_50("BDT_pt_30_50", "BDT_pt_30_50", BDT_pt_30_50_min, BDT_pt_30_50_max);
     RooRealVar BDT_pt_50_100("BDT_pt_50_100", "BDT_pt_50_100", BDT_pt_50_100_min, BDT_pt_50_100_max);
     RooRealVar BDT_total("BDT_total", "BDT_total", BDT_total_min, BDT_total_max);
- 
+    */
  
     w.import(Bmass);
     w.import(Bpt);
     w.import(By);
+
+    /*
     w.import(Btrk1eta);
     w.import(Btrk1Y);
     w.import(Btrk1pt);
@@ -2027,16 +2042,18 @@ void set_up_workspace_variables(RooWorkspace& w)
     w.import(BDT_pt_30_50);
     w.import(BDT_pt_50_100);
     w.import(BDT_total);
-
+    */
 
  
   }
     
   
   if(particle == 1){
+
     double mass_min, mass_max;
     double pt_min, pt_max;
     double y_min, y_max;
+    /*
     double trk1eta_min, trk1eta_max;
     double trk2eta_min, trk2eta_max; 
     double trk1pt_min, trk1pt_max;
@@ -2056,7 +2073,8 @@ void set_up_workspace_variables(RooWorkspace& w)
     double BDT_15_20_min, BDT_15_20_max;
     double BDT_20_50_min, BDT_20_50_max;
     double BDT_total_min, BDT_total_max;
-  
+    */
+
     mass_min= 5.;
     mass_max= 6.; 
 
@@ -2066,6 +2084,7 @@ void set_up_workspace_variables(RooWorkspace& w)
     y_min=-2.4;
     y_max= DATA_CUT ? 2.3 : 2.4;
 
+    /*
     trk1eta_min= DATA_CUT ? -2.4 : -2.5;
     trk1eta_max= DATA_CUT ? 2.4 : 2.5;
 
@@ -2122,11 +2141,12 @@ void set_up_workspace_variables(RooWorkspace& w)
 
     BDT_total_min = 0.29;
     BDT_total_max = DATA_CUT? 0.70 : 0.73;
-
+    */
 
     RooRealVar Bmass("Bmass","Bmass",mass_min,mass_max);
     RooRealVar Bpt("Bpt","Bpt",pt_min,pt_max);
     RooRealVar By("By","By",y_min,y_max);
+    /*
     RooRealVar Btrk1eta("Btrk1eta","Btrk1eta",trk1eta_min,trk1eta_max);
     RooRealVar Btrk2eta("Btrk2eta","Btrk2eta",trk2eta_min,trk2eta_max);
     RooRealVar Btrk1pt("Btrk1pt","Btrk1pt",trk1pt_min,trk1pt_max);
@@ -2146,10 +2166,12 @@ void set_up_workspace_variables(RooWorkspace& w)
     RooRealVar BDT_pt_15_20("BDT_pt_15_20", "BDT_pt_15_20", BDT_15_20_min, BDT_15_20_max);
     RooRealVar BDT_pt_20_50("BDT_pt_20_50", "BDT_pt_20_50", BDT_20_50_min, BDT_20_50_max);
     RooRealVar BDT_total("BDT_total", "BDT_total", BDT_total_min, BDT_total_max);
- 
+    */
+
     w.import(Bmass);
     w.import(Bpt);
     w.import(By);
+    /*
     w.import(Btrk1eta);
     w.import(Btrk2eta);
     w.import(Btrk1pt);
@@ -2169,5 +2191,6 @@ void set_up_workspace_variables(RooWorkspace& w)
     w.import(BDT_pt_15_20);
     w.import(BDT_pt_20_50);
     w.import(BDT_total);
+    */
   }
 }
